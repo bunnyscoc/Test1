@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Magical Question</title>
+    <title>A Magical Invitation</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             --magic-gold: #ffd700;
-            --deep-rose: #ff4d6d;
+            --soft-white: rgba(255, 255, 255, 0.9);
         }
 
         body, html {
@@ -18,9 +18,9 @@
             height: 100%;
             overflow: hidden;
             font-family: 'Dancing Script', cursive;
-            background: linear-gradient(-45deg, #2c003e, #fe5d9f, #f2a1ad, #3f0d12);
+            background: linear-gradient(-45deg, #4b0082, #ff69b4, #9370db, #ff1493);
             background-size: 400% 400%;
-            animation: dreamGradient 20s ease infinite;
+            animation: dreamGradient 15s ease infinite;
         }
 
         @keyframes dreamGradient {
@@ -29,122 +29,110 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glitter & Canvas */
         #glitterCanvas {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
-            z-index: 2;
-        }
-
-        /* Static Roses */
-        .rose {
-            position: absolute;
-            font-size: 2rem;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
             z-index: 1;
-            opacity: 0.7;
         }
 
-        /* Floating Dreams */
-        .floater {
+        /* Screens Management */
+        .screen {
             position: absolute;
-            color: white;
-            text-shadow: 0 0 8px rgba(255,215,0,0.8);
-            pointer-events: none;
-            z-index: 3;
-            animation: driftUp 7s linear forwards;
-        }
-
-        @keyframes driftUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Magical Card */
-        .container {
-            position: relative;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 215, 0, 0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 215, 0, 0.4);
             border-radius: 30px;
             padding: 40px;
             text-align: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.2);
+            box-shadow: 0 0 40px rgba(0,0,0,0.3);
             z-index: 10;
-            width: 85%;
-            max-width: 450px;
-            margin: auto;
-            top: 50%;
-            transform: translateY(-50%);
+            display: none;
         }
 
-        h1 { font-family: 'Great Vibes', cursive; color: #fff; font-size: 3rem; text-shadow: 0 0 15px var(--magic-gold); margin-bottom: 5px; }
-        
+        .active { display: block; animation: fadeIn 0.8s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -45%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        h1 { font-family: 'Great Vibes', cursive; color: white; font-size: 3rem; text-shadow: 0 0 10px var(--magic-gold); margin-top: 0; }
+        p { color: white; font-size: 1.5rem; }
+
         input {
-            background: rgba(255,255,255,0.9);
+            background: var(--soft-white);
             border: 2px solid var(--magic-gold);
-            padding: 12px;
+            padding: 15px;
             border-radius: 15px;
             width: 80%;
             font-size: 1.2rem;
-            outline: none;
             margin: 20px 0;
             font-family: 'Dancing Script';
+            text-align: center;
         }
 
         .btn-group {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px;
-            min-height: 120px;
+            gap: 20px;
+            min-height: 150px; /* Room for growing button */
         }
 
         button {
-            padding: 12px 35px;
+            padding: 12px 30px;
             border-radius: 30px;
             border: none;
             cursor: pointer;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-size: 1.4rem;
+            transition: transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        #yesBtn { background: linear-gradient(135deg, #4CAF50, #81c784); color: white; border: 1px solid #fff; }
-        #noBtn { background: linear-gradient(135deg, #f44336, #e57373); color: white; position: relative; }
+        .primary-btn { background: var(--magic-gold); color: #4b0082; font-weight: bold; }
+        #yesBtn { background: #4CAF50; color: white; z-index: 11; }
+        #noBtn { background: #f44336; color: white; position: relative; z-index: 12; }
 
-        #successMessage { display: none; }
-        #successMessage h2 { font-size: 3.5rem; color: var(--magic-gold); text-shadow: 0 0 20px #fff; }
-
+        .rose { position: absolute; font-size: 1.8rem; z-index: 2; opacity: 0.6; pointer-events: none; }
     </style>
 </head>
 <body>
 
     <canvas id="glitterCanvas"></canvas>
 
-    <div class="container">
-        <div id="quiz">
-            <h1>Dear Heart...</h1>
-            <input type="text" id="nameInput" placeholder="Enter your name...">
-            <p style="font-size: 1.8rem; color: white;">Will you be my Valentine?</p>
-            
-            <div class="btn-group">
-                <button id="yesBtn">Yes!</button>
-                <button id="noBtn">No</button>
-            </div>
-        </div>
+    <div id="nameScreen" class="screen active">
+        <h1>Welcome ✨</h1>
+        <p>A magical message awaits you...</p>
+        <input type="text" id="nameInput" placeholder="Enter your name here">
+        <br>
+        <button class="primary-btn" onclick="goToValentine()">Open Message</button>
+    </div>
 
-        <div id="successMessage">
-            <h2 id="greet"></h2>
-            <p style="font-size: 2rem; color: white;">A magical journey begins! ✨</p>
+    <div id="valentineScreen" class="screen">
+        <h1 id="personalHeading">Dear...</h1>
+        <p>Will you be my Valentine?</p>
+        <div class="btn-group">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
         </div>
     </div>
 
+    <div id="successScreen" class="screen">
+        <h1 id="successTitle">Yay! ❤️</h1>
+        <p>You've filled my world with magic!</p>
+        <div style="font-size: 4rem;">🌹✨💖</div>
+    </div>
+
     <script>
+        // 1. Glitter & Background Magic
         const canvas = document.getElementById('glitterCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -157,107 +145,32 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // 1. Glitter Particle Logic
         class Particle {
-            constructor(x, y, isFirework = false) {
+            constructor(x, y, isBlast = false) {
                 this.x = x || Math.random() * canvas.width;
                 this.y = y || Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * (isFirework ? 10 : 1.5);
-                this.speedY = (Math.random() - 0.5) * (isFirework ? 10 : 1.5);
-                this.color = `hsla(${Math.random() * 60 + 40}, 100%, 70%, ${Math.random()})`;
-                this.life = isFirework ? 100 : Infinity;
+                this.size = Math.random() * (isBlast ? 6 : 3) + 1;
+                this.speedX = (Math.random() - 0.5) * (isBlast ? 12 : 1.5);
+                this.speedY = (Math.random() - 0.5) * (isBlast ? 12 : 1.5);
+                this.color = `hsla(${Math.random() * 60 + 40}, 100%, 75%, ${Math.random()})`;
+                this.life = isBlast ? 80 : Infinity;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (!this.life === Infinity) {
-                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-                } else {
-                    this.life--;
-                }
+                if (this.life !== Infinity) this.life--;
             }
             draw() {
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                // Shine effect
-                if (Math.random() > 0.98) {
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = "white";
-                } else {
-                    ctx.shadowBlur = 0;
-                }
             }
         }
 
-        // Initialize background glitter
-        for (let i = 0; i < 80; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < 70; i++) particles.push(new Particle());
 
-        // 2. Roses and Drift
-        const decor = ['🌹', '✨', '💖', 'Love', 'Always'];
-        function createDrifter() {
-            const d = document.createElement('div');
-            d.className = 'floater';
-            d.innerHTML = decor[Math.floor(Math.random() * decor.length)];
-            d.style.left = Math.random() * 90 + 'vw';
-            d.style.fontSize = Math.random() * 20 + 20 + 'px';
-            document.body.appendChild(d);
-            setTimeout(() => d.remove(), 7000);
-        }
-        setInterval(createDrifter, 1000);
-
-        // Static Roses
-        for(let i=0; i<12; i++) {
-            const r = document.createElement('div');
-            r.className = 'rose';
-            r.innerHTML = '🌹';
-            r.style.left = Math.random() * 95 + '%';
-            r.style.top = Math.random() * 95 + '%';
-            r.style.transform = `rotate(${Math.random() * 360}deg)`;
-            document.body.appendChild(r);
-        }
-
-        // 3. Interaction Logic
-        const yesBtn = document.getElementById('yesBtn');
-        const noBtn = document.getElementById('noBtn');
-        const nameInput = document.getElementById('nameInput');
-        let scale = 1;
-        const noPhases = ["Really?", "Think deeper...", "Are you sure?", "You're joking!", "My heart! 💔", "Click Yes! ✨"];
-
-        function escape() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            
-            scale += 0.4;
-            yesBtn.style.transform = `scale(${scale})`;
-            noBtn.innerText = noPhases[Math.floor(Math.random() * noPhases.length)];
-        }
-
-        noBtn.addEventListener('mouseover', escape);
-        noBtn.addEventListener('click', escape);
-
-        yesBtn.addEventListener('click', () => {
-            const name = nameInput.value || "Beautiful";
-            document.getElementById('quiz').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('greet').innerText = `Yes! ${name}!`;
-            
-            // Blast effect
-            for(let i=0; i<150; i++) {
-                fireworks.push(new Particle(window.innerWidth/2, window.innerHeight/2, true));
-            }
-        });
-
-        // 4. Animation Loop
-        function loop() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => { p.update(); p.draw(); });
             fireworks.forEach((f, i) => {
@@ -265,10 +178,74 @@
                 f.draw();
                 if (f.life <= 0) fireworks.splice(i, 1);
             });
-            requestAnimationFrame(loop);
+            requestAnimationFrame(animate);
         }
-        loop();
+        animate();
 
+        // Static Roses
+        for(let i=0; i<15; i++) {
+            const r = document.createElement('div');
+            r.className = 'rose';
+            r.innerHTML = '🌹';
+            r.style.left = Math.random() * 95 + '%';
+            r.style.top = Math.random() * 95 + '%';
+            document.body.appendChild(r);
+        }
+
+        // 2. Navigation & Logic
+        const nameInput = document.getElementById('nameInput');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        let yesScale = 1;
+
+        function goToValentine() {
+            const name = nameInput.value.trim() || "Sweetheart";
+            document.getElementById('nameScreen').classList.remove('active');
+            document.getElementById('valentineScreen').classList.add('active');
+            document.getElementById('personalHeading').innerText = `Dear ${name}...`;
+        }
+
+        // 3. The "Runaway" No Button Fix
+        function moveNoButton() {
+            const padding = 30; // Safety margin from screen edges
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Strict boundary calculation
+            const maxX = window.innerWidth - btnWidth - padding;
+            const maxY = window.innerHeight - btnHeight - padding;
+
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+
+            // Change Text Playfully
+            const phrases = ["Wait, no!", "Wrong button!", "Are you sure?", "Think again!", "Try again! ✨"];
+            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+
+            // Grow Yes Button
+            yesScale += 0.35;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('valentineScreen').classList.remove('active');
+            document.getElementById('successScreen').classList.add('active');
+            
+            // Blast Effect
+            for(let i=0; i<150; i++) {
+                fireworks.push(new Particle(window.innerWidth/2, window.innerHeight/2, true));
+            }
+        });
     </script>
 </body>
 </html>
