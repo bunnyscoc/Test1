@@ -1,190 +1,274 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be My Valentine ❤️</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }body {
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Magical Question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magic-gold: #ffd700;
+            --deep-rose: #ff4d6d;
+        }
 
-.container {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 24px;
-  border-radius: 16px;
-  text-align: center;
-  width: 90%;
-  max-width: 360px;
-  z-index: 2;
-}
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(-45deg, #2c003e, #fe5d9f, #f2a1ad, #3f0d12);
+            background-size: 400% 400%;
+            animation: dreamGradient 20s ease infinite;
+        }
 
-h1 {
-  color: #e63946;
-  font-size: 1.6rem;
-  margin-bottom: 16px;
-}
+        @keyframes dreamGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 16px;
-  font-size: 1rem;
-}
+        /* Glitter & Canvas */
+        #glitterCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
 
-button {
-  padding: 10px 18px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
+        /* Static Roses */
+        .rose {
+            position: absolute;
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+            z-index: 1;
+            opacity: 0.7;
+        }
 
-.yes {
-  background: #e63946;
-  color: white;
-  margin-right: 10px;
-}
+        /* Floating Dreams */
+        .floater {
+            position: absolute;
+            color: white;
+            text-shadow: 0 0 8px rgba(255,215,0,0.8);
+            pointer-events: none;
+            z-index: 3;
+            animation: driftUp 7s linear forwards;
+        }
 
-.no {
-  background: #aaa;
-  color: white;
-  position: absolute;
-}
+        @keyframes driftUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
 
-.hearts span {
-  position: absolute;
-  bottom: -50px;
-  font-size: 20px;
-  animation: floatUp 8s linear infinite;
-  opacity: 0.8;
-}
+        /* Magical Card */
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.2);
+            z-index: 10;
+            width: 85%;
+            max-width: 450px;
+            margin: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  100% {
-    transform: translateY(-110vh) scale(1.5);
-    opacity: 0;
-  }
-}
+        h1 { font-family: 'Great Vibes', cursive; color: #fff; font-size: 3rem; text-shadow: 0 0 15px var(--magic-gold); margin-bottom: 5px; }
+        
+        input {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid var(--magic-gold);
+            padding: 12px;
+            border-radius: 15px;
+            width: 80%;
+            font-size: 1.2rem;
+            outline: none;
+            margin: 20px 0;
+            font-family: 'Dancing Script';
+        }
 
-@keyframes confettiFall {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(110vh) rotate(720deg); }
-}
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            min-height: 120px;
+        }
 
-@keyframes explode {
-  0% { transform: scale(0.2); opacity: 1; }
-  100% { transform: scale(4); opacity: 0; }
-}
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-110vh) scale(1.5);
-    opacity: 0;
-  }
-}
+        button {
+            padding: 12px 35px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
-  </style>
+        #yesBtn { background: linear-gradient(135deg, #4CAF50, #81c784); color: white; border: 1px solid #fff; }
+        #noBtn { background: linear-gradient(135deg, #f44336, #e57373); color: white; position: relative; }
+
+        #successMessage { display: none; }
+        #successMessage h2 { font-size: 3.5rem; color: var(--magic-gold); text-shadow: 0 0 20px #fff; }
+
+    </style>
 </head>
-<body>  <div class="hearts"></div>  <div class="container" id="step1">
-    <h1>💖 Happy Valentine's Day 💖</h1>
-    <input type="text" id="nameInput" placeholder="Enter your name" />
-    <button class="yes" onclick="askValentine()">Next</button>
-  </div>  <div class="container" id="step2" style="display:none; position: relative;">
-    <h1 id="question"></h1>
-    <div style="margin-top:20px; position: relative; height:60px;">
-      <button class="yes" onclick="accepted()">Yes 💕</button>
-      <button class="no" id="noBtn">No 😜</button>
+<body>
+
+    <canvas id="glitterCanvas"></canvas>
+
+    <div class="container">
+        <div id="quiz">
+            <h1>Dear Heart...</h1>
+            <input type="text" id="nameInput" placeholder="Enter your name...">
+            <p style="font-size: 1.8rem; color: white;">Will you be my Valentine?</p>
+            
+            <div class="btn-group">
+                <button id="yesBtn">Yes!</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="successMessage">
+            <h2 id="greet"></h2>
+            <p style="font-size: 2rem; color: white;">A magical journey begins! ✨</p>
+        </div>
     </div>
-  </div>  <script>
-    const heartsContainer = document.querySelector('.hearts');
 
-    function createHeart() {
-      const heart = document.createElement('span');
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (6 + Math.random() * 4) + 's';
-      heartsContainer.appendChild(heart);
+    <script>
+        const canvas = document.getElementById('glitterCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let fireworks = [];
 
-      setTimeout(() => heart.remove(), 10000);
-    }
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-    setInterval(createHeart, 400);
+        // 1. Glitter Particle Logic
+        class Particle {
+            constructor(x, y, isFirework = false) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * (isFirework ? 10 : 1.5);
+                this.speedY = (Math.random() - 0.5) * (isFirework ? 10 : 1.5);
+                this.color = `hsla(${Math.random() * 60 + 40}, 100%, 70%, ${Math.random()})`;
+                this.life = isFirework ? 100 : Infinity;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (!this.life === Infinity) {
+                    if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                    if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                } else {
+                    this.life--;
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                // Shine effect
+                if (Math.random() > 0.98) {
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = "white";
+                } else {
+                    ctx.shadowBlur = 0;
+                }
+            }
+        }
 
-    function askValentine() {
-      const name = document.getElementById('nameInput').value.trim();
-      if (!name) return alert('Please enter your name 💌');
+        // Initialize background glitter
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
 
-      document.getElementById('step1').style.display = 'none';
-      document.getElementById('step2').style.display = 'block';
-      document.getElementById('question').innerText = `${name}, will you be my Valentine? 💘`;
-    }
+        // 2. Roses and Drift
+        const decor = ['🌹', '✨', '💖', 'Love', 'Always'];
+        function createDrifter() {
+            const d = document.createElement('div');
+            d.className = 'floater';
+            d.innerHTML = decor[Math.floor(Math.random() * decor.length)];
+            d.style.left = Math.random() * 90 + 'vw';
+            d.style.fontSize = Math.random() * 20 + 20 + 'px';
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 7000);
+        }
+        setInterval(createDrifter, 1000);
 
-    const noBtn = document.getElementById('noBtn');
-    noBtn.addEventListener('mouseover', moveNoButton);
-    noBtn.addEventListener('click', moveNoButton);
+        // Static Roses
+        for(let i=0; i<12; i++) {
+            const r = document.createElement('div');
+            r.className = 'rose';
+            r.innerHTML = '🌹';
+            r.style.left = Math.random() * 95 + '%';
+            r.style.top = Math.random() * 95 + '%';
+            r.style.transform = `rotate(${Math.random() * 360}deg)`;
+            document.body.appendChild(r);
+        }
 
-    function moveNoButton() {
-      const x = Math.random() * 200 - 100;
-      const y = Math.random() * 100 - 50;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    }
+        // 3. Interaction Logic
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const nameInput = document.getElementById('nameInput');
+        let scale = 1;
+        const noPhases = ["Really?", "Think deeper...", "Are you sure?", "You're joking!", "My heart! 💔", "Click Yes! ✨"];
 
-    function accepted() {
-      launchCelebration();
-      document.getElementById('step2').innerHTML = '<h1>🥰 Yay! Happy Valentine’s Day! 💖</h1><p>You just made my day!</p>';
-    }
+        function escape() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            scale += 0.4;
+            yesBtn.style.transform = `scale(${scale})`;
+            noBtn.innerText = noPhases[Math.floor(Math.random() * noPhases.length)];
+        }
 
-    function launchCelebration() {
-      for (let i = 0; i < 150; i++) {
-        const confetti = document.createElement('div');
-        confetti.style.position = 'fixed';
-        confetti.style.width = '8px';
-        confetti.style.height = '8px';
-        confetti.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = '-10px';
-        confetti.style.borderRadius = '50%';
-        confetti.style.zIndex = 9999;
-        confetti.style.animation = `confettiFall ${3 + Math.random() * 2}s linear`;
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 5000);
-      }
+        noBtn.addEventListener('mouseover', escape);
+        noBtn.addEventListener('click', escape);
 
-      for (let i = 0; i < 6; i++) {
-        createFirework();
-      }
-    }
+        yesBtn.addEventListener('click', () => {
+            const name = nameInput.value || "Beautiful";
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('greet').innerText = `Yes! ${name}!`;
+            
+            // Blast effect
+            for(let i=0; i<150; i++) {
+                fireworks.push(new Particle(window.innerWidth/2, window.innerHeight/2, true));
+            }
+        });
 
-    function createFirework() {
-      const firework = document.createElement('div');
-      firework.style.position = 'fixed';
-      firework.style.left = Math.random() * 80 + 10 + 'vw';
-      firework.style.top = Math.random() * 50 + 10 + 'vh';
-      firework.style.width = '10px';
-      firework.style.height = '10px';
-      firework.style.borderRadius = '50%';
-      firework.style.boxShadow = '0 0 20px 10px rgba(255,255,255,0.8)';
-      firework.style.animation = 'explode 1s ease-out forwards';
-      firework.style.zIndex = 9999;
-      document.body.appendChild(firework);
-      setTimeout(() => firework.remove(), 1200);
-    }
-  </script></body>
+        // 4. Animation Loop
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            fireworks.forEach((f, i) => {
+                f.update();
+                f.draw();
+                if (f.life <= 0) fireworks.splice(i, 1);
+            });
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+    </script>
+</body>
 </html>
