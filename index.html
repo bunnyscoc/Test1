@@ -83,7 +83,7 @@
             justify-content: center;
             align-items: center;
             gap: 20px;
-            min-height: 150px; /* Room for growing button */
+            min-height: 150px;
         }
 
         button {
@@ -99,10 +99,18 @@
 
         .primary-btn { background: var(--magic-gold); color: #4b0082; font-weight: bold; }
         #yesBtn { background: #4CAF50; color: white; z-index: 11; }
-        #noBtn { background: #f44336; color: white; position: relative; z-index: 12; }
+        
+        /* No button starts relative but will switch to fixed via JS */
+        #noBtn { 
+            background: #f44336; 
+            color: white; 
+            position: relative; 
+            z-index: 12; 
+        }
 
         .rose { position: absolute; font-size: 1.8rem; z-index: 2; opacity: 0.6; pointer-events: none; }
     </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -132,20 +140,17 @@
     </div>
 
     <script>
-
         window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const nameFromUrl = urlParams.get('name');
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameFromUrl = urlParams.get('name');
 
-    if (nameFromUrl) {
-        // Set the input field value
-        document.getElementById('nameInput').value = nameFromUrl;
-        
-        // Automatically trigger the transition to the Valentine screen
-        showValentineScreen();
-    }
+            if (nameFromUrl) {
+                document.getElementById('nameInput').value = nameFromUrl;
+                showValentineScreen();
+            }
         }
-        // 1. Glitter & Background Magic
+
+        // Glitter & Background Magic
         const canvas = document.getElementById('glitterCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -205,11 +210,12 @@
             document.body.appendChild(r);
         }
 
-        // 2. Navigation & Logic
+        // Navigation & Logic
         const nameInput = document.getElementById('nameInput');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         let yesScale = 1;
+        let isFirstMove = true;
 
         function goToValentine() {
             const name = nameInput.value.trim() || "Sweetheart";
@@ -218,38 +224,66 @@
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
         }
 
-        // 3. The "Runaway" No Button Fix
+        function showValentineScreen() {
+            const name = nameInput.value.trim() || "Sweetheart";
+            document.getElementById('nameScreen').classList.remove('active');
+            document.getElementById('valentineScreen').classList.add('active');
+            document.getElementById('personalHeading').innerText = `Dear ${name}...`;
+        }
+
+        // FIXED: The "Runaway" No Button - Works every time!
         function moveNoButton() {
-    // 1. Define a "Safe Margin" from the edges of the screen
-    const margin = 80; 
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            
+            // Fixed button dimensions (approximate based on CSS)
+            const btnWidth = 100;  // Approximate width including padding
+            const btnHeight = 50;  // Approximate height
+            
+            // Set padding from edges
+            const padding = 30;
+            
+            // Calculate safe random position
+            const maxX = viewportWidth - btnWidth - padding;
+            const maxY = viewportHeight - btnHeight - padding;
+            const minX = padding;
+            const minY = padding;
+            
+            // Generate random position
+            const newX = Math.floor(Math.random() * (maxX - minX)) + minX;
+            const newY = Math.floor(Math.random() * (maxY - minY)) + minY;
+            
+            // Apply styles to make button visible and positioned
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.zIndex = "9999";
+            noBtn.style.display = 'block'; // Ensure it's visible
+            noBtn.style.visibility = 'visible';
+            noBtn.style.opacity = '1';
 
-    // 2. Calculate the "Safe Zone" (Window size minus button size and margins)
-    const maxWidth = window.innerWidth - noBtn.offsetWidth - margin;
-    const maxHeight = window.innerHeight - noBtn.offsetHeight - margin;
+            // Grow the Yes button
+            yesScale += 0.4;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            // Playful text change
+            const phrases = ["Wait!", "Over here!", "Try again!", "Nope!", "Missed me!", "Catch me!", "Too slow!"];
+            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            isFirstMove = false;
+        }
 
-    // 3. Generate random coordinates, but stay within the Safe Zone
-    // We use Math.max to ensure the value never goes below our margin
-    const newX = Math.max(margin, Math.floor(Math.random() * maxWidth));
-    const newY = Math.max(margin, Math.floor(Math.random() * maxHeight));
-
-    // 4. Move the button
-    noBtn.style.position = 'fixed'; // Breaks out of the card layout
-    noBtn.style.left = newX + 'px';
-    noBtn.style.top = newY + 'px';
-    noBtn.style.zIndex = "999"; // Ensures it stays on top of the card
-
-    // 5. Grow the Yes button
-    yesScale += 0.4;
-    yesBtn.style.transform = `scale(${yesScale})`;
-    
-    // Playful text change
-    const phrases = ["Wait!", "Over here!", "Try again!", "Nope!", "Missed me!"];
-    noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-}
-    
-
-        noBtn.addEventListener('mouseover', moveNoButton);
+        // Use mouseenter instead of mouseover for better reliability
+        noBtn.addEventListener('mouseenter', moveNoButton);
         noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            moveNoButton();
+        });
+
+        // Also handle touch events for mobile
+        noBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             moveNoButton();
         });
