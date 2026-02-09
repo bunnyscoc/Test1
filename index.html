@@ -84,6 +84,7 @@
             align-items: center;
             gap: 20px;
             min-height: 150px;
+            position: relative; /* Important for absolute positioning context */
         }
 
         button {
@@ -98,14 +99,21 @@
         }
 
         .primary-btn { background: var(--magic-gold); color: #4b0082; font-weight: bold; }
-        #yesBtn { background: #4CAF50; color: white; z-index: 11; }
         
-        /* No button starts relative but will switch to fixed via JS */
+        /* Yes button grows but stays below No button */
+        #yesBtn { 
+            background: #4CAF50; 
+            color: white; 
+            z-index: 100;
+            position: relative;
+        }
+        
+        /* No button always on top */
         #noBtn { 
             background: #f44336; 
             color: white; 
             position: relative; 
-            z-index: 12; 
+            z-index: 1000; /* Much higher than Yes button */
         }
 
         .rose { position: absolute; font-size: 1.8rem; z-index: 2; opacity: 0.6; pointer-events: none; }
@@ -127,7 +135,7 @@
     <div id="valentineScreen" class="screen">
         <h1 id="personalHeading">Dear...</h1>
         <p>Will you be my Valentine?</p>
-        <div class="btn-group">
+        <div class="btn-group" id="btnGroup">
             <button id="yesBtn">Yes!</button>
             <button id="noBtn">No</button>
         </div>
@@ -214,8 +222,9 @@
         const nameInput = document.getElementById('nameInput');
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
+        const btnGroup = document.getElementById('btnGroup');
         let yesScale = 1;
-        let isFirstMove = true;
+        let moveCount = 0;
 
         function goToValentine() {
             const name = nameInput.value.trim() || "Sweetheart";
@@ -231,50 +240,59 @@
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
         }
 
-        // FIXED: The "Runaway" No Button - Works every time!
+        // FIXED: No button escapes and stays visible even as Yes button grows
         function moveNoButton() {
-            // Get viewport dimensions
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+            moveCount++;
             
-            // Fixed button dimensions (approximate based on CSS)
-            const btnWidth = 100;  // Approximate width including padding
-            const btnHeight = 50;  // Approximate height
+            // Get the card boundaries
+            const card = document.getElementById('valentineScreen');
+            const cardRect = card.getBoundingClientRect();
             
-            // Set padding from edges
-            const padding = 30;
+            // Button dimensions
+            const btnWidth = 80;
+            const btnHeight = 45;
             
-            // Calculate safe random position
-            const maxX = viewportWidth - btnWidth - padding;
-            const maxY = viewportHeight - btnHeight - padding;
-            const minX = padding;
-            const minY = padding;
+            // Padding inside the card
+            const padding = 20;
             
-            // Generate random position
-            const newX = Math.floor(Math.random() * (maxX - minX)) + minX;
-            const newY = Math.floor(Math.random() * (maxY - minY)) + minY;
+            // Available space inside the card
+            const availableWidth = cardRect.width - btnWidth - (padding * 2);
+            const availableHeight = cardRect.height - btnHeight - (padding * 2);
             
-            // Apply styles to make button visible and positioned
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = newX + 'px';
-            noBtn.style.top = newY + 'px';
-            noBtn.style.zIndex = "9999";
-            noBtn.style.display = 'block'; // Ensure it's visible
+            // Generate random position within the card
+            // Keep it in the upper half mostly to avoid growing Yes button
+            const randomX = Math.random() * availableWidth;
+            const randomY = Math.random() * (availableHeight * 0.6); // Stay in upper 60% of card
+            
+            // Position relative to the card
+            const finalX = randomX + padding;
+            const finalY = randomY + padding;
+            
+            // Apply positioning - stay inside the card, not fixed to viewport
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = finalX + 'px';
+            noBtn.style.top = finalY + 'px';
+            noBtn.style.zIndex = '10000'; // Extremely high z-index
+            noBtn.style.display = 'block';
             noBtn.style.visibility = 'visible';
             noBtn.style.opacity = '1';
-
+            
             // Grow the Yes button
-            yesScale += 0.4;
+            yesScale += 0.5;
             yesBtn.style.transform = `scale(${yesScale})`;
             
             // Playful text change
-            const phrases = ["Wait!", "Over here!", "Try again!", "Nope!", "Missed me!", "Catch me!", "Too slow!"];
+            const phrases = ["Wait!", "Over here!", "Try again!", "Nope!", "Missed me!", "Catch me!", "Too slow!", "I'm fast!"];
             noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
             
-            isFirstMove = false;
+            // If Yes button gets too big, reset it slightly to prevent complete takeover
+            if (yesScale > 3) {
+                yesScale = 2;
+                yesBtn.style.transform = `scale(${yesScale})`;
+            }
         }
 
-        // Use mouseenter instead of mouseover for better reliability
+        // Event listeners
         noBtn.addEventListener('mouseenter', moveNoButton);
         noBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -282,7 +300,6 @@
             moveNoButton();
         });
 
-        // Also handle touch events for mobile
         noBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             moveNoButton();
