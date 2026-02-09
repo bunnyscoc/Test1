@@ -220,29 +220,33 @@
 
         // 3. The "Runaway" No Button Fix
         function moveNoButton() {
-            const padding = 30; // Safety margin from screen edges
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
+    // 1. Define a "Safe Margin" from the edges of the screen
+    const margin = 80; 
 
-            // Strict boundary calculation
-            const maxX = window.innerWidth - btnWidth - padding;
-            const maxY = window.innerHeight - btnHeight - padding;
+    // 2. Calculate the "Safe Zone" (Window size minus button size and margins)
+    const maxWidth = window.innerWidth - noBtn.offsetWidth - margin;
+    const maxHeight = window.innerHeight - noBtn.offsetHeight - margin;
 
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+    // 3. Generate random coordinates, but stay within the Safe Zone
+    // We use Math.max to ensure the value never goes below our margin
+    const newX = Math.max(margin, Math.floor(Math.random() * maxWidth));
+    const newY = Math.max(margin, Math.floor(Math.random() * maxHeight));
 
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = `${randomX}px`;
-            noBtn.style.top = `${randomY}px`;
+    // 4. Move the button
+    noBtn.style.position = 'fixed'; // Breaks out of the card layout
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+    noBtn.style.zIndex = "999"; // Ensures it stays on top of the card
 
-            // Change Text Playfully
-            const phrases = ["Wait, no!", "Wrong button!", "Are you sure?", "Think again!", "Try again! ✨"];
-            noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-
-            // Grow Yes Button
-            yesScale += 0.35;
-            yesBtn.style.transform = `scale(${yesScale})`;
-        }
+    // 5. Grow the Yes button
+    yesScale += 0.4;
+    yesBtn.style.transform = `scale(${yesScale})`;
+    
+    // Playful text change
+    const phrases = ["Wait!", "Over here!", "Try again!", "Nope!", "Missed me!"];
+    noBtn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+}
+    
 
         noBtn.addEventListener('mouseover', moveNoButton);
         noBtn.addEventListener('click', (e) => {
