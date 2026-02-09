@@ -132,6 +132,19 @@
     </div>
 
     <script>
+
+        window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameFromUrl = urlParams.get('name');
+
+    if (nameFromUrl) {
+        // Set the input field value
+        document.getElementById('nameInput').value = nameFromUrl;
+        
+        // Automatically trigger the transition to the Valentine screen
+        showValentineScreen();
+    }
+        }
         // 1. Glitter & Background Magic
         const canvas = document.getElementById('glitterCanvas');
         const ctx = canvas.getContext('2d');
