@@ -231,33 +231,40 @@
             const nameList = ['Cookie', 'cookie', 'Ishu', 'ishu'];
             const nameList2 = ['Maradal', 'maradal', 'Maradalu', 'maradalu', 'Maradhalu', 'maradhalu'];
             var nameExt = "";
-            if( nameList.includes(name) ) {
+            var namePre = 'Yay!';
+            var PersonalHeqdingExt = "";
+            if( nameList.includes(name) )  {
                 nameExt = 'Papa ';
+                namePre = 'Oye..!';
             }
             if( nameList2.includes(name) ) {
-                nameExt = 'Pilla ';
+                nameExt = 'Papa ';
+                namePre = 'Oye..!';
             }
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
-            document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            document.getElementById('successTitle').innerText = `Yay! ${name} ${nameExt}❤️`;
+            document.getElementById('personalHeading').innerText = `Dear ${name} ${nameExt}...`;
+            document.getElementById('successTitle').innerText = `${namePre} ${name} ${nameExt}❤️`;
         }
 
         function showValentineScreen() {
             const name = nameInput.value.trim() || "Sweetheart";
             const nameList = ['Cookie', 'cookie', 'Ishu', 'ishu'];
             const nameList2 = ['Maradal', 'maradal', 'Maradalu', 'maradalu', 'Maradhalu', 'maradhalu'];
-            var nameExt = "";
-            if( nameList.includes(name) ) {
+            var namePre = 'Yay!';
+            var PersonalHeqdingExt = "";
+            if( nameList.includes(name) )  {
                 nameExt = 'Papa ';
+                namePre = 'Oye..!';
             }
             if( nameList2.includes(name) ) {
                 nameExt = 'Pilla ';
+                namePre = 'Oye..!';
             }
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
-            document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            document.getElementById('successTitle').innerText = `Yay! ${name} ${nameExt}❤️`;
+            document.getElementById('personalHeading').innerText = `Dear ${name} ${nameExt}...`;
+            document.getElementById('successTitle').innerText = `${namePre} ${name} ${nameExt}❤️`;
         }
         
         // FIXED: No button escapes and stays visible even as Yes button grows
