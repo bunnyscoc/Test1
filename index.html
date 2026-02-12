@@ -129,7 +129,7 @@
         <p>A magical message awaits you...</p>
         <input type="text" id="nameInput" placeholder="Enter your name here">
         <br>
-        <button id="magicTime" class="primary-btn"  onclick="goToValentine()">Magic Time</button>
+        <button class="primary-btn"  onclick="goToValentine()">Magic Time</button>
     </div>
 
     <div id="valentineScreen" class="screen">
@@ -231,10 +231,7 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            if (name === "Swetheart")
-                { document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`; }
-            else
-                { document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`; }
+            document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`;
         }
 
         function showValentineScreen() {
@@ -242,10 +239,7 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            if (name === "Swetheart")
-                { document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`; }
-            else
-                { document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`; }
+            document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`;
         }
         
         // FIXED: No button escapes and stays visible even as Yes button grows
