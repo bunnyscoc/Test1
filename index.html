@@ -142,7 +142,7 @@
     </div>
 
     <div id="successScreen" class="screen">
-        <h1 id="successTitle">Yay! ${name} ❤️</h1>
+        <h1 id="successTitle">Yay!  ❤️</h1>
         <p>You've filled my world with magic!</p>
         <div style="font-size: 4rem;">🌹✨💖</div>
     </div>
@@ -231,6 +231,7 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
+            document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`;
         }
 
         function showValentineScreen() {
@@ -238,6 +239,7 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
+            document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`;
         }
 
         // FIXED: No button escapes and stays visible even as Yes button grows
