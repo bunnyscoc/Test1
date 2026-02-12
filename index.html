@@ -127,7 +127,7 @@
     <div id="nameScreen" class="screen active">
         <h1>Welcome ✨</h1>
         <p>A magical message awaits you...</p>
-        <input type="text" id="nameInput" onchange="ToggleMagicTime()" placeholder="Enter your name here">
+        <input type="text" id="nameInput" placeholder="Enter your name here">
         <br>
         <button id="magicTime" class="primary-btn"  onclick="goToValentine()">Magic Time</button>
     </div>
@@ -247,22 +247,6 @@
             else
                 { document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`; }
         }
-
-        function ToggleMagicTime() {
-            // Reference the checkbox and the button elements
-            var name = document.getElementById("nameInput");
-            var button = document.getElementById("magicTime");
-            
-            // Check the condition (if the checkbox is checked)
-            if (name.length > 0) 
-                {
-                // Show the button
-                button.style.display = "block"; // or "inline", "inline-block", etc., depending on desired layout
-                }
-            else {
-                button.style.display = "none";
-                }
-            }
         
         // FIXED: No button escapes and stays visible even as Yes button grows
         function moveNoButton() {
