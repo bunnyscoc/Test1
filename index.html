@@ -231,7 +231,10 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`;
+            if (name === "Swetheart")
+                { document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`; }
+            else
+                { document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`; }
         }
 
         function showValentineScreen() {
@@ -239,7 +242,10 @@
             document.getElementById('nameScreen').classList.remove('active');
             document.getElementById('valentineScreen').classList.add('active');
             document.getElementById('personalHeading').innerText = `Dear ${name}...`;
-            document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`;
+            if (name === "Swetheart")
+                { document.getElementById('successTitle').innerText = `Yay! ${name} ❤️`; }
+            else
+                { document.getElementById('successTitle').innerText = `Yay! ${name} papa ❤️`; }
         }
 
         function ToggleMagicTime() {
